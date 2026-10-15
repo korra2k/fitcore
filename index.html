@@ -1,0 +1,2021 @@
+<!DOCTYPE html>
+<html lang="kk">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FITCORE — Фитнес-платформа</title>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --bg-2: #12121a;
+      --card: #16161f;
+      --border: #24242f;
+      --text: #eaeaf0;
+      --muted: #8a8a99;
+      --accent: #ff6a1a;
+      --accent-2: #ff8c42;
+      --neon: #00e5ff;
+      --success: #22c55e;
+      --danger: #ef4444;
+      --radius: 14px;
+      --shadow: 0 10px 40px rgba(255, 106, 26, .15);
+      --font: 'Inter', 'Segoe UI', system-ui, sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font);
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+      background-image:
+        radial-gradient(1200px 600px at 90% -10%, rgba(255, 106, 26, .12), transparent 60%),
+        radial-gradient(900px 500px at -10% 20%, rgba(0, 229, 255, .08), transparent 60%);
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    button {
+      font-family: inherit;
+      cursor: pointer;
+      border: none;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
+      padding: .75rem 1.5rem;
+      border-radius: 10px;
+      font-weight: 600;
+      font-size: .95rem;
+      transition: .2s;
+      white-space: nowrap;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-2));
+      color: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      filter: brightness(1.1);
+    }
+
+    .btn-primary:disabled {
+      opacity: .5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: #fff;
+    }
+
+    .btn-sm {
+      padding: .5rem 1rem;
+      font-size: .85rem;
+    }
+
+    .input,
+    select,
+    textarea {
+      width: 100%;
+      padding: .8rem 1rem;
+      background: var(--bg-2);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-size: .95rem;
+      transition: .2s;
+      font-family: inherit;
+    }
+
+    .input:focus,
+    select:focus {
+      outline: none;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(255, 106, 26, .15);
+    }
+
+    label {
+      display: block;
+      font-size: .85rem;
+      color: var(--muted);
+      margin-bottom: .4rem;
+    }
+
+    .field {
+      margin-bottom: 1.1rem;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      transition: .25s;
+    }
+
+    .card:hover {
+      border-color: rgba(255, 106, 26, .4);
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+
+    .header {
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: rgba(10, 10, 15, .85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 1rem 0;
+      gap: 1rem;
+    }
+
+    .logo {
+      font-weight: 800;
+      font-size: 1.4rem;
+      letter-spacing: .5px;
+      cursor: pointer;
+    }
+
+    .logo span {
+      color: var(--accent);
+    }
+
+    .nav {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      flex-wrap: wrap;
+    }
+
+    .nav a {
+      color: var(--muted);
+      font-weight: 500;
+      cursor: pointer;
+    }
+
+    .nav a:hover {
+      color: var(--accent);
+    }
+
+    .badge {
+      display: inline-block;
+      padding: .25rem .7rem;
+      border-radius: 999px;
+      font-size: .75rem;
+      font-weight: 600;
+    }
+
+    .badge-success {
+      background: rgba(34, 197, 94, .15);
+      color: var(--success);
+    }
+
+    .badge-warn {
+      background: rgba(255, 106, 26, .15);
+      color: var(--accent);
+    }
+
+    .badge-danger {
+      background: rgba(239, 68, 68, .15);
+      color: var(--danger);
+    }
+
+    .badge-info {
+      background: rgba(0, 229, 255, .12);
+      color: var(--neon);
+    }
+
+    .grid {
+      display: grid;
+      gap: 1.25rem;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, 1fr);
+    }
+
+    .grid-4 {
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .section {
+      padding: 5rem 0;
+    }
+
+    .section-title {
+      font-size: 2rem;
+      font-weight: 800;
+      margin-bottom: .75rem;
+    }
+
+    .section-sub {
+      color: var(--muted);
+      margin-bottom: 2.5rem;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent);
+    }
+
+    .stat-label {
+      color: var(--muted);
+      font-size: .85rem;
+    }
+
+    .app-layout {
+      display: grid;
+      grid-template-columns: 260px 1fr;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      background: var(--bg-2);
+      border-right: 1px solid var(--border);
+      padding: 1.5rem 1rem;
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      overflow-y: auto;
+    }
+
+    .sidebar nav {
+      display: flex;
+      flex-direction: column;
+      gap: .25rem;
+      margin-top: 1rem;
+    }
+
+    .sidebar nav a {
+      padding: .7rem 1rem;
+      border-radius: 10px;
+      color: var(--muted);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: .7rem;
+      cursor: pointer;
+    }
+
+    .sidebar nav a:hover {
+      background: rgba(255, 106, 26, .08);
+      color: var(--text);
+    }
+
+    .sidebar nav a.active {
+      background: linear-gradient(135deg, rgba(255, 106, 26, .2), rgba(255, 106, 26, .05));
+      color: var(--accent);
+      border-left: 3px solid var(--accent);
+    }
+
+    .content {
+      padding: 2rem;
+      overflow-x: hidden;
+    }
+
+    .page-title {
+      font-size: 1.6rem;
+      font-weight: 800;
+      margin-bottom: 1.5rem;
+    }
+
+    .progress {
+      height: 8px;
+      background: var(--bg-2);
+      border-radius: 999px;
+      overflow: hidden;
+    }
+
+    .progress>span {
+      display: block;
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent), var(--accent-2));
+      transition: width .4s;
+    }
+
+    .auth-wrap {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .auth-card {
+      width: 100%;
+      max-width: 420px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .9rem;
+    }
+
+    th {
+      text-align: left;
+      color: var(--muted);
+      padding: .6rem .5rem;
+      font-weight: 600;
+    }
+
+    td {
+      padding: .6rem .5rem;
+      border-top: 1px solid var(--border);
+    }
+
+    #toast {
+      position: fixed;
+      bottom: 2rem;
+      right: 2rem;
+      z-index: 100;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--accent);
+      padding: 1rem 1.5rem;
+      border-radius: 10px;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, .5);
+      opacity: 0;
+      transform: translateY(20px);
+      transition: .3s;
+      pointer-events: none;
+      max-width: 360px;
+    }
+
+    #toast.show {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    #toast.success {
+      border-left-color: var(--success);
+    }
+
+    #toast.error {
+      border-left-color: var(--danger);
+    }
+
+    .loader {
+      display: inline-block;
+      width: 20px;
+      height: 20px;
+      border: 2px solid var(--border);
+      border-top-color: var(--accent);
+      border-radius: 50%;
+      animation: spin .6s linear infinite;
+    }
+
+    @keyframes spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    @media (max-width: 900px) {
+
+      .grid-2,
+      .grid-3,
+      .grid-4 {
+        grid-template-columns: 1fr;
+      }
+
+      .app-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .sidebar {
+        position: static;
+        height: auto;
+      }
+
+      .section {
+        padding: 3rem 0;
+      }
+
+      .section-title {
+        font-size: 1.5rem;
+      }
+
+      .content {
+        padding: 1rem;
+      }
+
+      .nav {
+        gap: .75rem;
+        font-size: .9rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div id="app">
+    <div style="padding:3rem;text-align:center;">
+      <span class="loader"></span>
+      <p style="color:var(--muted);margin-top:1rem;">FITCORE жүктелуде…</p>
+    </div>
+  </div>
+  <div id="toast"></div>
+
+  <script type="module">
+    /* =========================================================
+       0. FIREBASE SDK (модульный, v10.12)
+       ========================================================= */
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+    import {
+      getDatabase, ref, get, set, update, remove, push,
+      onValue, query, limitToLast, runTransaction
+    } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-database.js";
+
+    /* =========================================================
+       1. FIREBASE CONFIG
+       ========================================================= */
+    const firebaseConfig = {
+      apiKey: "AIzaSyCqMtDnoRkUBYGRC90y5M0o9KoWYAeabbU",
+      authDomain: "fitcore-d22fa.firebaseapp.com",
+      databaseURL: "https://fitcore-d22fa-default-rtdb.europe-west1.firebasedatabase.app",
+      projectId: "fitcore-d22fa",
+      storageBucket: "fitcore-d22fa.firebasestorage.app",
+      messagingSenderId: "836377554213",
+      appId: "1:836377554213:web:e266ad5c8c6c810a08becc"
+    };
+
+    const FIREBASE_READY =
+      firebaseConfig.apiKey &&
+      !firebaseConfig.apiKey.includes("XXXX") &&
+      firebaseConfig.databaseURL &&
+      !firebaseConfig.databaseURL.includes("XXXX");
+
+    let db = null;
+    if (FIREBASE_READY) {
+      try {
+        const app = initializeApp(firebaseConfig);
+        db = getDatabase(app);
+        console.log("[FITCORE] Firebase RTDB қосылды");
+      } catch (e) {
+        console.error("[FITCORE] Firebase қатесі:", e);
+      }
+    }
+
+    /* =========================================================
+       2. MOCK DATA (fallback)
+       ========================================================= */
+    const MOCK = {
+      currentUser: {
+        uid: 'client_001', role: 'client',
+        firstName: 'Иван', lastName: 'Петров',
+        email: 'ivan@example.com', phone: '+7 999 123-45-67',
+        membership: {
+          type: 'premium', startDate: '2025-01-15', endDate: '2025-07-15',
+          totalSessions: 50, usedSessions: 17, status: 'active'
+        },
+        progress: {
+          weight: [
+            { date: '2025-02-01', value: 82.5 },
+            { date: '2025-03-01', value: 80.1 },
+            { date: '2025-04-01', value: 78.6 }
+          ],
+          measurements: [
+            { date: '2025-02-01', chest: 104, waist: 92, hips: 100 },
+            { date: '2025-03-01', chest: 102, waist: 88, hips: 98 }
+          ],
+          achievements: ['first_workout', '10_sessions', 'month_streak'],
+          trainingPlan: { id: 'plan_hypertrophy_01', name: 'Гипертрофия · 4 дня/нед', startedAt: '2025-02-01' }
+        }
+      },
+      trainers: {
+        trainer_001: { id: 'trainer_001', name: 'Мария Иванова', specialization: ['йога', 'стретчинг'], experience: 7, rating: 4.9, bio: 'Хатха-йога' },
+        trainer_002: { id: 'trainer_002', name: 'Дмитрий Орлов', specialization: ['crossfit', 'functional'], experience: 5, rating: 4.8, bio: 'КМС по кроссфиту' },
+        trainer_003: { id: 'trainer_003', name: 'Анна Ким', specialization: ['пилатес', 'стретчинг'], experience: 6, rating: 5.0, bio: 'Пилатес BASI' }
+      },
+      halls: {
+        hall_001: { id: 'hall_001', name: 'A залы · Йога', capacity: 20, status: 'open' },
+        hall_002: { id: 'hall_002', name: 'CrossFit залы', capacity: 15, status: 'open' },
+        hall_003: { id: 'hall_003', name: 'Pilates залы', capacity: 12, status: 'open' }
+      },
+      classes: {
+        class_yoga_01: { id: 'class_yoga_01', title: 'Хатха-йога', type: 'group', trainerId: 'trainer_001', hallId: 'hall_001', datetime: '2025-03-15T18:00:00Z', durationMin: 60, capacity: 20, booked: 12, price: 800, level: 'beginner', online: true, totalBookings: 145, streamUrl: 'https://live.fitcore.ru/yoga_01', rating: { avg: 4.8, count: 62, sum: 297.6 } },
+        class_crossfit_02: { id: 'class_crossfit_02', title: 'CrossFit WOD', type: 'group', trainerId: 'trainer_002', hallId: 'hall_002', datetime: '2025-03-15T19:30:00Z', durationMin: 75, capacity: 15, booked: 15, price: 1000, level: 'intermediate', online: false, totalBookings: 132, streamUrl: null, rating: { avg: 4.8, count: 45, sum: 216 } },
+        class_pilates_03: { id: 'class_pilates_03', title: 'Пилатес', type: 'group', trainerId: 'trainer_003', hallId: 'hall_003', datetime: '2025-03-16T10:00:00Z', durationMin: 50, capacity: 12, booked: 5, price: 700, level: 'beginner', online: true, totalBookings: 98, streamUrl: 'https://live.fitcore.ru/pilates_03', rating: { avg: 4.9, count: 40, sum: 196 } },
+        class_yoga_04: { id: 'class_yoga_04', title: 'Арқаға арналған йога', type: 'group', trainerId: 'trainer_001', hallId: 'hall_001', datetime: '2025-03-16T12:00:00Z', durationMin: 60, capacity: 20, booked: 8, price: 800, level: 'beginner', online: false, totalBookings: 76, streamUrl: null, rating: { avg: 4.78, count: 31, sum: 148.2 } }
+      },
+      bookingsByUser: {
+        client_001: {
+          class_yoga_01: { bookedAt: '2025-03-12T09:00:00Z', status: 'confirmed' },
+          class_crossfit_02: { bookedAt: '2025-03-12T09:05:00Z', status: 'confirmed' }
+        }
+      },
+      onlineTrainings: {
+        online_001: { id: 'online_001', title: 'Таңғы жаттығу Live', trainerId: 'trainer_001', scheduledAt: '2025-03-16T07:00:00Z', durationMin: 30, streamUrl: 'https://live.fitcore.ru/morning_01', totalSubscribers: 1 },
+        online_002: { id: 'online_002', title: 'Кешкі стретчинг', trainerId: 'trainer_001', scheduledAt: '2025-03-16T21:00:00Z', durationMin: 40, streamUrl: 'https://live.fitcore.ru/stretch_02', totalSubscribers: 0 }
+      },
+      accessControl: {
+        turnstiles: {
+          turnstile_01: { id: 'turnstile_01', location: 'A кіреберіс', status: 'online', lastPingAt: '2025-03-15T17:58:00Z' },
+          turnstile_02: { id: 'turnstile_02', location: 'B кіреберіс', status: 'online', lastPingAt: '2025-03-15T17:57:00Z' }
+        }
+      },
+      accessLogs: {
+        '-Nabc001': { userId: 'client_001', turnstileId: 'turnstile_01', timestamp: '2025-03-15T17:55:00Z', result: 'granted', method: 'qr' },
+        '-Nabc002': { userId: 'client_002', turnstileId: 'turnstile_01', timestamp: '2025-03-15T18:02:00Z', result: 'granted', method: 'card' },
+        '-Nabc003': { userId: 'unknown', turnstileId: 'turnstile_02', timestamp: '2025-03-15T18:05:00Z', result: 'denied', method: 'qr', reason: 'expired_membership' }
+      },
+      analytics: {
+        hallLoad: {
+          hall_001: { avgLoadPercent: 78, peakHour: 18 },
+          hall_002: { avgLoadPercent: 92, peakHour: 19 },
+          hall_003: { avgLoadPercent: 45, peakHour: 10 }
+        },
+        retention: {
+          monthly: [
+            { month: '2025-01', rate: 0.82 }, { month: '2025-02', rate: 0.85 }, { month: '2025-03', rate: 0.83 }
+          ]
+        },
+        popularClasses: [
+          { classId: 'class_yoga_01', title: 'Хатха-йога', totalBookings: 145 },
+          { classId: 'class_crossfit_02', title: 'CrossFit WOD', totalBookings: 132 },
+          { classId: 'class_pilates_03', title: 'Пилатес', totalBookings: 98 }
+        ],
+        topClass: { classId: 'class_yoga_01', title: 'Хатха-йога', trainerId: 'trainer_001', totalBookings: 145, avgRating: 4.8 },
+        totals: { activeClients: 248, activeTrainers: 12, classesThisWeek: 42, onlineTrainingsThisWeek: 8 }
+      }
+    };
+
+    /* =========================================================
+       3. API LAYER
+       ========================================================= */
+    const API = {
+      async getUser(uid) {
+        if (!FIREBASE_READY || !db) {
+          return uid === 'client_001' ? { ...MOCK.currentUser } : null;
+        }
+        const snap = await get(ref(db, `users/${uid}`));
+        return snap.exists() ? snap.val() : null;
+      },
+
+      async updateUser(uid, patch) {
+        if (!FIREBASE_READY || !db) { Object.assign(MOCK.currentUser, patch); return true; }
+        await update(ref(db, `users/${uid}`), patch);
+        return true;
+      },
+
+      async getAllUsers() {
+        if (!FIREBASE_READY || !db) {
+          return {
+            client_001: MOCK.currentUser, client_002: {
+              uid: 'client_002', role: 'client', firstName: 'Ольга', lastName: 'Соколова',
+              email: 'olga@example.com', phone: '+7 999 765-43-21',
+              membership: {
+                type: 'basic', startDate: '2025-02-10', endDate: '2025-05-10',
+                totalSessions: 20, usedSessions: 6, status: 'active'
+              }
+            }
+          };
+        }
+        const snap = await get(ref(db, 'users'));
+        return snap.exists() ? snap.val() : {};
+      },
+
+      async getAllClients() {
+        const users = await this.getAllUsers();
+        return Object.values(users).filter(u => u.role === 'client');
+      },
+
+      async getClasses() {
+        if (!FIREBASE_READY || !db) return { ...MOCK.classes };
+        const snap = await get(ref(db, 'classes'));
+        return snap.exists() ? snap.val() : {};
+      },
+      async getClassById(id) {
+        if (!FIREBASE_READY || !db) return MOCK.classes[id] || null;
+        const snap = await get(ref(db, `classes/${id}`));
+        return snap.exists() ? snap.val() : null;
+      },
+      async createClass(payload) {
+        if (!FIREBASE_READY || !db) { MOCK.classes[payload.id] = payload; return payload.id; }
+        const newRef = push(ref(db, 'classes'));
+        const id = newRef.key;
+        await set(newRef, { ...payload, id });
+        return id;
+      },
+      async deleteClass(id) {
+        if (!FIREBASE_READY || !db) { delete MOCK.classes[id]; return true; }
+        await remove(ref(db, `classes/${id}`));
+        return true;
+      },
+      async getTrainers() {
+        if (!FIREBASE_READY || !db) return { ...MOCK.trainers };
+        const snap = await get(ref(db, 'trainers'));
+        return snap.exists() ? snap.val() : {};
+      },
+      async getHalls() {
+        if (!FIREBASE_READY || !db) return { ...MOCK.halls };
+        const snap = await get(ref(db, 'halls'));
+        return snap.exists() ? snap.val() : {};
+      },
+
+      async bookClass(uid, classId) {
+        if (!FIREBASE_READY || !db) {
+          if (!MOCK.bookingsByUser[uid]) MOCK.bookingsByUser[uid] = {};
+          MOCK.bookingsByUser[uid][classId] = { bookedAt: new Date().toISOString(), status: 'confirmed' };
+          if (MOCK.classes[classId]) MOCK.classes[classId].booked++;
+          return true;
+        }
+
+        const userBookingSnap = await get(ref(db, `bookingsByUser/${uid}/${classId}`));
+        if (userBookingSnap.exists()) throw new Error('Сіз бұл сабаққа тіркелгенсіз');
+
+        const classRef = ref(db, `classes/${classId}`);
+        const result = await runTransaction(classRef, (c) => {
+          if (!c) return c;
+          if ((c.booked || 0) >= c.capacity) return;
+          c.booked = (c.booked || 0) + 1;
+          c.totalBookings = (c.totalBookings || 0) + 1;
+          return c;
+        });
+        if (!result.committed) throw new Error('Орын жоқ');
+
+        const now = new Date().toISOString();
+        await Promise.all([
+          set(ref(db, `bookingsByClass/${classId}/${uid}`), {
+            bookedAt: now, status: 'confirmed', attended: false
+          }),
+          set(ref(db, `bookingsByUser/${uid}/${classId}`), {
+            bookedAt: now, status: 'confirmed'
+          })
+        ]);
+        return true;
+      },
+
+      async cancelBooking(uid, classId) {
+        if (!FIREBASE_READY || !db) {
+          if (MOCK.bookingsByUser[uid]?.[classId]) {
+            delete MOCK.bookingsByUser[uid][classId];
+            if (MOCK.classes[classId]) MOCK.classes[classId].booked--;
+          }
+          return true;
+        }
+
+        await Promise.all([
+          remove(ref(db, `bookingsByClass/${classId}/${uid}`)),
+          remove(ref(db, `bookingsByUser/${uid}/${classId}`))
+        ]);
+
+        await runTransaction(ref(db, `classes/${classId}`), (c) => {
+          if (!c) return c;
+          c.booked = Math.max(0, (c.booked || 0) - 1);
+          return c;
+        });
+        return true;
+      },
+
+      async getUserBookings(uid) {
+        if (!FIREBASE_READY || !db) return MOCK.bookingsByUser[uid] || {};
+        const snap = await get(ref(db, `bookingsByUser/${uid}`));
+        return snap.exists() ? snap.val() : {};
+      },
+
+      async getOnlineTrainings() {
+        if (!FIREBASE_READY || !db) return { ...MOCK.onlineTrainings };
+        const snap = await get(ref(db, 'onlineTrainings'));
+        return snap.exists() ? snap.val() : {};
+      },
+
+      async subscribeOnline(uid, onlineId) {
+        if (!FIREBASE_READY || !db) {
+          if (MOCK.onlineTrainings[onlineId]) MOCK.onlineTrainings[onlineId].totalSubscribers++;
+          return true;
+        }
+        await set(ref(db, `onlineTrainings/${onlineId}/subscribers/${uid}`), true);
+        await runTransaction(ref(db, `onlineTrainings/${onlineId}/totalSubscribers`), (n) => (n || 0) + 1);
+        return true;
+      },
+
+      async getProgress(uid) {
+        if (!FIREBASE_READY || !db) return { ...MOCK.currentUser.progress };
+        const snap = await get(ref(db, `users/${uid}/progress`));
+        return snap.exists() ? snap.val() : { weight: [], measurements: [], achievements: [] };
+      },
+
+      async addWeightEntry(uid, entry) {
+        if (!FIREBASE_READY || !db) {
+          MOCK.currentUser.progress.weight.push(entry);
+          return true;
+        }
+        const listRef = ref(db, `users/${uid}/progress/weight`);
+        const snap = await get(listRef);
+        const arr = snap.val() || [];
+        arr.push(entry);
+        await set(listRef, arr);
+        return true;
+      },
+
+      async getAccessLogs() {
+        if (!FIREBASE_READY || !db) return { ...MOCK.accessLogs };
+        const snap = await get(query(ref(db, 'accessLogs'), limitToLast(50)));
+        return snap.exists() ? snap.val() : {};
+      },
+      async getTurnstiles() {
+        if (!FIREBASE_READY || !db) return { ...MOCK.accessControl.turnstiles };
+        const snap = await get(ref(db, 'accessControl/turnstiles'));
+        return snap.exists() ? snap.val() : {};
+      },
+
+      async getAnalytics() {
+        if (!FIREBASE_READY || !db) return { ...MOCK.analytics };
+        const snap = await get(ref(db, 'analytics'));
+        return snap.exists() ? snap.val() : MOCK.analytics;
+      },
+
+      async login(email, password) {
+        if (!FIREBASE_READY || !db) {
+          if (email === 'ivan@example.com' && password === '123456') return { ...MOCK.currentUser };
+          if (email === 'admin@fitcore.ru' && password === 'admin') {
+            return { uid: 'admin_001', role: 'admin', firstName: 'Алексей', lastName: 'Смирнов', email };
+          }
+          throw new Error('Қате email немесе құпиясөз (демо: ivan@example.com / 123456)');
+        }
+
+        const snap = await get(ref(db, 'users'));
+        if (!snap.exists()) throw new Error('Пайдаланушылар базасы бос');
+
+        const users = snap.val();
+        const found = Object.values(users).find(u =>
+          u.email && u.email.toLowerCase() === email.toLowerCase() &&
+          u.password === password
+        );
+        if (!found) throw new Error('Қате email немесе құпиясөз');
+        return found;
+      },
+
+      async register(payload) {
+        if (!FIREBASE_READY || !db) return 'client_new';
+
+        const snap = await get(ref(db, 'users'));
+        const users = snap.exists() ? snap.val() : {};
+        const exists = Object.values(users).some(u =>
+          u.email && u.email.toLowerCase() === payload.email.toLowerCase()
+        );
+        if (exists) throw new Error('Email тіркелген');
+
+        const uid = 'user_' + Date.now().toString(36);
+        const newUser = {
+          uid, role: 'client',
+          firstName: payload.firstName,
+          lastName: payload.lastName,
+          email: payload.email,
+          password: payload.password,
+          phone: payload.phone || '',
+          avatar: '',
+          createdAt: new Date().toISOString(),
+          lastVisitAt: new Date().toISOString(),
+          membership: {
+            type: 'basic',
+            startDate: new Date().toISOString().slice(0, 10),
+            endDate: new Date(Date.now() + 90 * 24 * 3600 * 1000).toISOString().slice(0, 10),
+            totalSessions: 20, usedSessions: 0, status: 'active'
+          },
+          progress: {
+            weight: [], measurements: [], achievements: [], trainingPlan: null
+          }
+        };
+        await set(ref(db, `users/${uid}`), newUser);
+        return uid;
+      },
+
+      async resetPassword(email, newPassword) {
+        if (!FIREBASE_READY || !db) return true;
+        const snap = await get(ref(db, 'users'));
+        const users = snap.exists() ? snap.val() : {};
+        const entry = Object.entries(users).find(([, u]) =>
+          u.email && u.email.toLowerCase() === email.toLowerCase()
+        );
+        if (!entry) throw new Error('Пайдаланушы табылмады');
+        await update(ref(db, `users/${entry[0]}`), { password: newPassword });
+        return true;
+      },
+
+      async logout() {
+        state.user = null;
+        localStorage.removeItem('fitcore_user');
+        return true;
+      }
+    };
+
+    /* =========================================================
+       4. STATE
+       ========================================================= */
+    const state = { user: null, route: 'home' };
+
+    /* =========================================================
+       5. UTILS
+       ========================================================= */
+    function toast(msg, type = 'info') {
+      const el = document.getElementById('toast');
+      el.textContent = msg;
+      el.className = 'show ' + type;
+      clearTimeout(el._t);
+      el._t = setTimeout(() => el.className = '', 3000);
+    }
+    function fmtDate(iso, opts) {
+      if (!iso) return '—';
+      try {
+        return new Date(iso).toLocaleString('kk-KZ', opts || {
+          day: '2-digit', month: 'short', hour: '2-digit', minute: '2-digit'
+        });
+      } catch { return iso; }
+    }
+    function esc(s) {
+      return String(s ?? '').replace(/[&<>"']/g, m =>
+        ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
+    }
+    function homeFor(role) {
+      if (role === 'admin' || role === 'trainer') return `${role}/dashboard`;
+      return 'client/dashboard';
+    }
+    function navigate(route) { location.hash = route; }
+
+    /* =========================================================
+       6. ROUTER (без settings)
+       ========================================================= */
+    const ROUTES = {
+      home: { render: renderHome, public: true },
+      login: { render: renderLogin, public: true },
+      register: { render: renderRegister, public: true },
+      reset: { render: renderReset, public: true },
+
+      'client/dashboard': { render: renderClientDashboard, role: 'client' },
+      'client/schedule': { render: renderClientSchedule, role: 'client' },
+      'client/trainings': { render: renderClientTrainings, role: 'client' },
+      'client/progress': { render: renderClientProgress, role: 'client' },
+
+      'admin/dashboard': { render: renderAdminDashboard, role: 'admin' },
+      'admin/schedule': { render: renderAdminSchedule, role: 'admin' },
+      'admin/clients': { render: renderAdminClients, role: 'admin' },
+      'admin/access': { render: renderAdminAccess, role: 'admin' },
+      'admin/analytics': { render: renderAdminAnalytics, role: 'admin' },
+
+      'trainer/dashboard': { render: renderAdminDashboard, role: 'trainer' },
+      'trainer/schedule': { render: renderAdminSchedule, role: 'trainer' },
+      'trainer/clients': { render: renderAdminClients, role: 'trainer' }
+    };
+
+    async function router() {
+      const hash = location.hash.replace(/^#\/?/, '') || 'home';
+      const route = ROUTES[hash] || ROUTES.home;
+      state.route = hash;
+
+      if (route.role && (!state.user || state.user.role !== route.role)) {
+        toast('Кіру қажет', 'error');
+        return navigate('login');
+      }
+      if (route.public && state.user && (hash === 'login' || hash === 'register')) {
+        return navigate(homeFor(state.user.role));
+      }
+
+      const app = document.getElementById('app');
+      app.innerHTML = '<div style="padding:3rem;text-align:center;"><span class="loader"></span></div>';
+      try {
+        const html = await route.render();
+        app.innerHTML = html;
+        bindRouteEvents(hash);
+        window.scrollTo(0, 0);
+      } catch (err) {
+        console.error(err);
+        app.innerHTML = `<div class="container" style="padding:3rem 0;">
+      <div class="card" style="border-color:var(--danger);">
+        <h2 style="color:var(--danger);">Қате</h2>
+        <pre style="white-space:pre-wrap;color:var(--muted);margin-top:1rem;">${esc(err.message)}</pre>
+        <button class="btn btn-ghost" style="margin-top:1rem;" data-nav="home">Басты бетке</button>
+      </div>
+    </div>`;
+      }
+    }
+    window.addEventListener('hashchange', router);
+
+    /* =========================================================
+       7. LAYOUTS (без settings)
+       ========================================================= */
+    function layoutPublic(content, { showHeader = true } = {}) {
+      const header = showHeader ? `
+    <header class="header">
+      <div class="container header-inner">
+        <a class="logo" data-nav="home">FIT<span>CORE</span></a>
+        <nav class="nav">
+          <a data-nav="home">Басты бет</a>
+          <a data-nav="login">Кіру</a>
+          <a data-nav="register" class="btn btn-primary btn-sm" style="color:#fff;">Тіркелу</a>
+        </nav>
+      </div>
+    </header>` : '';
+      return header + content;
+    }
+
+    function layoutApp(content, active) {
+      const role = state.user?.role || 'client';
+      const isAdmin = role === 'admin' || role === 'trainer';
+      const base = role === 'trainer' ? 'trainer' : (role === 'admin' ? 'admin' : 'client');
+
+      const items = role === 'trainer' ? [
+        { id: 'dashboard', icon: '📊', label: 'Басқару панелі' },
+        { id: 'schedule', icon: '📅', label: 'Кесте' },
+        { id: 'clients', icon: '👥', label: 'Менің клиенттерім' }
+      ] : isAdmin ? [
+        { id: 'dashboard', icon: '📊', label: 'Басқару панелі' },
+        { id: 'schedule', icon: '📅', label: 'Кесте' },
+        { id: 'clients', icon: '👥', label: 'Клиенттер' },
+        { id: 'access', icon: '🚪', label: 'Кіруді бақылау' },
+        { id: 'analytics', icon: '📈', label: 'Аналитика' }
+      ] : [
+        { id: 'dashboard', icon: '📊', label: 'Басқару панелі' },
+        { id: 'schedule', icon: '📅', label: 'Кесте' },
+        { id: 'trainings', icon: '🏋️', label: 'Менің жаттығуларым' },
+        { id: 'progress', icon: '📈', label: 'Прогресс' }
+      ];
+
+      const nav = items.map(i =>
+        `<a class="${active === i.id ? 'active' : ''}" data-nav="${base}/${i.id}">
+      ${i.icon} ${i.label}
+    </a>`).join('');
+
+      const userName = `${esc(state.user?.firstName || '')} ${esc(state.user?.lastName || '')}`.trim();
+
+      return `
+    <div class="app-layout">
+      <aside class="sidebar">
+        <a class="logo" data-nav="home">FIT<span>CORE</span>${isAdmin ? ' · ERP' : ''}</a>
+        <div style="margin-top:1rem;padding:.75rem 1rem;background:var(--card);
+                    border:1px solid var(--border);border-radius:10px;">
+          <div style="font-weight:600;">${userName || 'Қонақ'}</div>
+          <div style="color:var(--muted);font-size:.8rem;">${esc(role)}${FIREBASE_READY ? '' : ' · demo'}</div>
+        </div>
+        <nav>
+          ${nav}
+          <a data-action="logout" style="margin-top:1rem;color:var(--danger);">🚪 Шығу</a>
+        </nav>
+      </aside>
+      <main class="content">${content}</main>
+    </div>`;
+    }
+
+    /* =========================================================
+       8. LANDING
+       ========================================================= */
+    async function renderHome() {
+      let analytics = {}, classes = {}, trainers = {};
+      try {
+        [analytics, classes, trainers] = await Promise.all([
+          API.getAnalytics(), API.getClasses(), API.getTrainers()
+        ]);
+      } catch (e) { console.warn(e); }
+
+      const t = analytics?.totals || {};
+      const dirs = Object.values(classes || {}).slice(0, 3);
+      const tList = Object.values(trainers || {}).slice(0, 3);
+
+      return layoutPublic(`
+    <section class="section">
+      <div class="container grid grid-2" style="align-items:center;">
+        <div>
+          <span class="badge badge-warn">🔥 Жаңа платформа</span>
+          <h1 style="font-size:3.2rem;font-weight:900;margin:1rem 0;line-height:1.1;">
+            Сенің <span style="color:var(--accent)">күшің</span> —<br/>өз қолыңда
+          </h1>
+          <p class="section-sub" style="font-size:1.1rem;">
+            2 кликпен жаттығуға жазыл. Онлайн және залда. Жеке прогресс,
+            нақты уақыттағы кесте және қаланың үздік жаттықтырушылары.
+          </p>
+          <div style="display:flex;gap:1rem;flex-wrap:wrap;">
+            <a class="btn btn-primary" data-nav="register">Қазір жазылу</a>
+            <a class="btn btn-ghost" href="#pricing">Тарифтерді көру</a>
+          </div>
+          <div class="grid grid-3" style="margin-top:3rem;">
+            <div><div class="stat-value">${t.activeClients ?? '—'}</div><div class="stat-label">клиент</div></div>
+            <div><div class="stat-value">${t.activeTrainers ?? '—'}</div><div class="stat-label">жаттықтырушы</div></div>
+            <div><div class="stat-value">${t.classesThisWeek ?? '—'}</div><div class="stat-label">сабақ/апта</div></div>
+          </div>
+        </div>
+        <div class="card" style="position:relative;min-height:420px;display:flex;
+     align-items:center;justify-content:center;overflow:hidden;padding:0;
+     background:linear-gradient(135deg,#1a1a25,#0f0f18);">
+
+  <img src="fitnes.svg" alt="FITCORE фитнес"
+       style="width:100%;height:100%;min-height:420px;object-fit:cover;
+              filter:brightness(0) invert(1);opacity:.85;" />
+
+  <div style="position:absolute;bottom:0;left:0;right:0;padding:2rem 1.5rem;
+              text-align:center;
+              background:linear-gradient(to top,rgba(10,10,15,.95) 20%,transparent);">
+    <h3 style="font-size:1.6rem;font-weight:800;line-height:1.25;">
+      Әр қадам — <span style="color:var(--accent);">жеңіске</span> қарай
+    </h3>
+    <p style="color:var(--muted);margin-top:.5rem;font-size:.95rem;">
+      Бүгін баста. Ертең өзіңе рахмет айтасың.
+    </p>
+  </div>
+</div>
+      </div>
+    </section>
+
+    <section class="section" style="background:var(--bg-2);">
+      <div class="container">
+        <h2 class="section-title">Неге FITCORE</h2>
+        <p class="section-sub">Барлық ең жақсыны бір платформада жинадық</p>
+        <div class="grid grid-4">
+          ${[
+          ['⚡', 'Realtime-кесте', 'Бос орындар лезде жаңарады'],
+          ['🎥', 'Онлайн-жаттығулар', 'Әлемнің кез келген нүктесінен жаттық'],
+          ['📈', 'Прогресс', 'Салмақ, өлшемдер, жетістіктер және жоспарлар'],
+          ['🚪', 'QR-кіру', 'Турникеттен секундта өт']
+        ].map(([i, t, d]) => `
+            <div class="card">
+              <div style="font-size:2rem;">${i}</div>
+              <h3 style="margin:.75rem 0 .5rem;">${t}</h3>
+              <p style="color:var(--muted);font-size:.9rem;">${d}</p>
+            </div>`).join('')}
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2 class="section-title">Танымал бағыттар</h2>
+        <p class="section-sub">Ұнайтынын таңда</p>
+        <div class="grid grid-3">
+          ${dirs.length ? dirs.map(c => `
+            <div class="card">
+              <span class="badge badge-info">${esc(c.level || 'барлық деңгей')}</span>
+              <h3 style="margin:.75rem 0 .5rem;">${esc(c.title)}</h3>
+              <p style="color:var(--muted);">${c.price} ₸-ден</p>
+            </div>`).join('') : '<p style="color:var(--muted);">Жақында пайда болады</p>'}
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="pricing" style="background:var(--bg-2);">
+      <div class="container">
+        <h2 class="section-title">Тарифтер</h2>
+        <p class="section-sub">Ашық бағалар, жасырын төлемдер жоқ</p>
+        <div class="grid grid-3">
+          ${[
+          { n: 'Basic', p: '2 990', f: ['20 сабақ', 'Топтық жаттығулар', 'Залға кіру'] },
+          { n: 'Premium', p: '4 990', f: ['50 сабақ', 'Онлайн-жаттығулар', 'Жеке жоспар', 'Мұздату'], pop: true },
+          { n: 'VIP', p: '8 990', f: ['Шексіз', 'Жеке жаттықтырушы', 'Тағам және өлшемдер'] }
+        ].map(x => `
+            <div class="card" style="${x.pop ? 'border-color:var(--accent);box-shadow:var(--shadow);' : ''}">
+              ${x.pop ? '<span class="badge badge-warn">Танымал</span>' : ''}
+              <h3 style="margin-top:.5rem;">${x.n}</h3>
+              <div style="font-size:2.5rem;font-weight:800;margin:1rem 0;">${x.p} ₸<span style="font-size:1rem;color:var(--muted);">/ай</span></div>
+              <ul style="color:var(--muted);line-height:2;list-style:none;">
+                ${x.f.map(f => `<li>✓ ${f}</li>`).join('')}
+              </ul>
+              <a class="btn ${x.pop ? 'btn-primary' : 'btn-ghost'}" style="width:100%;margin-top:1.5rem;"
+                 data-nav="register">Таңдау</a>
+            </div>`).join('')}
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2 class="section-title">Біздің жаттықтырушылар</h2>
+        <p class="section-sub">Тәжірибелі және ісіне сүйіспеншілікпен қарайтын кәсіпқойлар</p>
+        <div class="grid grid-3">
+          ${tList.length ? tList.map(tr => `
+            <div class="card" style="text-align:center;">
+              <div style="width:80px;height:80px;border-radius:50%;margin:0 auto 1rem;
+                          background:linear-gradient(135deg,var(--accent),var(--accent-2));
+                          display:flex;align-items:center;justify-content:center;font-size:2rem;">👤</div>
+              <h3>${esc(tr.name)}</h3>
+              <p style="color:var(--muted);font-size:.9rem;">${(tr.specialization || []).join(' · ')}</p>
+              <p style="color:var(--accent);font-weight:700;margin-top:.5rem;">★ ${tr.rating}</p>
+            </div>`).join('') : '<p style="color:var(--muted);">Жақында пайда болады</p>'}
+        </div>
+      </div>
+    </section>
+
+    <footer style="background:var(--bg-2);border-top:1px solid var(--border);padding:2rem 0;">
+      <div class="container" style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:1rem;">
+        <div class="logo">FIT<span>CORE</span> © 2025</div>
+        <div style="color:var(--muted);">Алматы, Спорт к-сі 1 · +7 727 000-00-00</div>
+      </div>
+    </footer>
+  `);
+    }
+
+    /* =========================================================
+       9. AUTH PAGES
+       ========================================================= */
+    function renderLogin() {
+      return layoutPublic(`
+    <div class="auth-wrap">
+      <div class="card auth-card">
+        <a class="logo" style="display:block;text-align:center;margin-bottom:1.5rem;"
+           data-nav="home">FIT<span>CORE</span></a>
+        <h2 style="text-align:center;margin-bottom:.5rem;">Кіру</h2>
+        <p style="text-align:center;color:var(--muted);margin-bottom:2rem;">
+          ${FIREBASE_READY ? 'Firebase Auth арқылы' : 'Демо-режим (кез келген email/құпиясөз)'}
+        </p>
+        <form id="login-form">
+          <div class="field"><label>Email</label>
+            <input class="input" type="email" id="email" required
+              value="${FIREBASE_READY ? '' : 'ivan@example.com'}" placeholder="you@example.com" />
+          </div>
+          <div class="field"><label>Құпиясөз</label>
+            <input class="input" type="password" id="password" required minlength="6"
+              value="${FIREBASE_READY ? '' : '123456'}" placeholder="••••••" />
+          </div>
+          <button class="btn btn-primary" style="width:100%;" type="submit">Кіру</button>
+        </form>
+        <div style="display:flex;justify-content:space-between;margin-top:1.5rem;font-size:.85rem;">
+          <a style="color:var(--muted);" data-nav="reset">Құпиясөзді ұмыттыңыз ба?</a>
+          <a style="color:var(--accent);" data-nav="register">Тіркелу</a>
+        </div>
+        ${!FIREBASE_READY ? `
+          <div style="margin-top:1.5rem;padding:.75rem;background:rgba(0,229,255,.08);
+                      border:1px solid rgba(0,229,255,.3);border-radius:10px;font-size:.8rem;color:var(--neon);">
+            ⓘ Firebase конфигурацияланбаған. Кіру <b>client_001</b> демо-профилін қайтарады.
+          </div>` : ''}
+      </div>
+    </div>`, { showHeader: false });
+    }
+
+    function renderRegister() {
+      return layoutPublic(`
+    <div class="auth-wrap">
+      <div class="card auth-card" style="max-width:480px;">
+        <a class="logo" style="display:block;text-align:center;margin-bottom:1.5rem;"
+           data-nav="home">FIT<span>CORE</span></a>
+        <h2 style="text-align:center;margin-bottom:2rem;">Аккаунт жасау</h2>
+        <form id="register-form">
+          <div class="grid grid-2">
+            <div class="field"><label>Аты</label><input class="input" id="firstName" required /></div>
+            <div class="field"><label>Тегі</label><input class="input" id="lastName" required /></div>
+          </div>
+          <div class="field"><label>Email</label><input class="input" type="email" id="email" required /></div>
+          <div class="field"><label>Телефон</label><input class="input" id="phone" placeholder="+7 ..." /></div>
+          <div class="field"><label>Құпиясөз (мин. 6)</label>
+            <input class="input" type="password" id="password" required minlength="6" />
+          </div>
+          <button class="btn btn-primary" style="width:100%;" type="submit">Тіркелу</button>
+        </form>
+        <p style="text-align:center;margin-top:1.5rem;color:var(--muted);font-size:.9rem;">
+          Аккаунтыңыз бар ма?
+          <a style="color:var(--accent);" data-nav="login">Кіру</a>
+        </p>
+      </div>
+    </div>`, { showHeader: false });
+    }
+
+    function renderReset() {
+      return layoutPublic(`
+    <div class="auth-wrap">
+      <div class="card auth-card">
+        <a class="logo" style="display:block;text-align:center;margin-bottom:1.5rem;"
+           data-nav="home">FIT<span>CORE</span></a>
+        <h2 style="text-align:center;margin-bottom:.5rem;">Құпиясөзді қалпына келтіру</h2>
+        <p style="text-align:center;color:var(--muted);margin-bottom:2rem;">Email-ге сілтеме жібереміз</p>
+        <form id="reset-form">
+  <div class="field"><label>Email</label>
+    <input class="input" type="email" id="email" required />
+  </div>
+  <div class="field"><label>Жаңа құпиясөз</label>
+    <input class="input" type="password" id="newPassword" required minlength="6" />
+  </div>
+  <button class="btn btn-primary" style="width:100%;" type="submit">Құпиясөзді ауыстыру</button>
+</form>
+        <p style="text-align:center;margin-top:1.5rem;">
+          <a style="color:var(--muted);font-size:.9rem;" data-nav="login">← Кіруге оралу</a>
+        </p>
+      </div>
+    </div>`, { showHeader: false });
+    }
+
+    /* =========================================================
+       10. CLIENT PAGES
+       ========================================================= */
+    async function renderClientDashboard() {
+      const uid = state.user?.uid;
+      if (!uid) return navigate('login');
+
+      const [user, bookings] = await Promise.all([
+        API.getUser(uid),
+        API.getUserBookings(uid)
+      ]);
+
+      if (!user) {
+        return layoutApp(`
+      <h1 class="page-title">Профиль табылмады</h1>
+      <p style="color:var(--muted);">Әкімшіге хабарласыңыз.</p>
+    `, 'dashboard');
+      }
+
+      const m = user.membership || { type: '—', totalSessions: 0, usedSessions: 0, status: '—' };
+      const left = Math.max(0, (m.totalSessions || 0) - (m.usedSessions || 0));
+      const usedPct = m.totalSessions ? (m.usedSessions / m.totalSessions) * 100 : 0;
+
+      const firstClassId = Object.keys(bookings || {})[0];
+      const cls = firstClassId ? await API.getClassById(firstClassId) : null;
+
+      return layoutApp(`
+    <h1 class="page-title">Сәлем, ${esc(user.firstName)} 👋</h1>
+
+    <div class="grid grid-3" style="margin-bottom:2rem;">
+      <div class="card">
+        <div class="stat-label">Менің абонементім</div>
+        <div class="stat-value">${esc((m.type || '').toUpperCase())}</div>
+        <p style="color:var(--muted);font-size:.85rem;margin-top:.5rem;">
+          ${esc(m.startDate || '—')} → ${esc(m.endDate || '—')}
+        </p>
+        <span class="badge badge-success" style="margin-top:1rem;">${esc(m.status)}</span>
+      </div>
+      <div class="card">
+        <div class="stat-label">Қалған сабақтар</div>
+        <div class="stat-value">${left}</div>
+        <div class="progress" style="margin-top:1rem;">
+          <span style="width:${usedPct}%"></span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="stat-label">Жақын жаттығу</div>
+        <div style="font-weight:700;font-size:1.1rem;margin-top:.5rem;">
+          ${cls ? esc(cls.title) : '—'}
+        </div>
+        <p style="color:var(--muted);font-size:.85rem;margin-top:.5rem;">
+          ${cls ? fmtDate(cls.datetime) : 'Жазылымдар жоқ'}
+        </p>
+      </div>
+    </div>
+
+    <h2 style="font-size:1.2rem;margin-bottom:1rem;">Жылдам әрекеттер</h2>
+    <div class="grid grid-3">
+      ${[
+          ['schedule', '📅', 'Жаттығуға жазылу'],
+          ['progress', '📈', 'Өлшем қосу'],
+          ['trainings', '🎥', 'Онлайн-жаттығулар']
+        ].map(([r, i, t]) => `
+        <div class="card" style="cursor:pointer;" data-nav="client/${r}">
+          <div style="font-size:1.5rem;">${i}</div>
+          <h3 style="margin-top:.5rem;">${t}</h3>
+        </div>`).join('')}
+    </div>
+  `, 'dashboard');
+    }
+
+    async function renderClientSchedule() {
+      const [trainers, halls] = await Promise.all([API.getTrainers(), API.getHalls()]);
+      return layoutApp(`
+    <h1 class="page-title">Сабақтар кестесі</h1>
+
+    <div class="card" style="margin-bottom:1.5rem;">
+      <div class="grid grid-3">
+        <div><label>Зал</label>
+          <select id="f-hall"><option value="">Барлық залдар</option>
+            ${Object.values(halls).map(h => `<option value="${h.id}">${esc(h.name)}</option>`).join('')}
+          </select>
+        </div>
+        <div><label>Жаттықтырушы</label>
+          <select id="f-trainer"><option value="">Барлық жаттықтырушылар</option>
+            ${Object.values(trainers).map(t => `<option value="${t.id}">${esc(t.name)}</option>`).join('')}
+          </select>
+        </div>
+        <div><label>Түрі</label>
+          <select id="f-type">
+            <option value="">Барлығы</option>
+            <option value="group">Топтық</option>
+            <option value="online">Онлайн</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <div id="classes-list" class="grid grid-2">
+      <p style="color:var(--muted);">Жүктелуде…</p>
+    </div>
+  `, 'schedule');
+    }
+
+    async function renderClientTrainings() {
+      const [online, bookings, classes] = await Promise.all([
+        API.getOnlineTrainings(), API.getUserBookings(state.user.uid), API.getClasses()
+      ]);
+
+      const onlineList = Object.values(online || {});
+      const onlineHtml = onlineList.length ? onlineList.map(o => `
+    <div class="card">
+      <h3>${esc(o.title)}</h3>
+      <p style="color:var(--muted);font-size:.85rem;margin:.5rem 0;">
+        ${fmtDate(o.scheduledAt)} · ${o.durationMin} мин
+      </p>
+      <button class="btn btn-primary" data-action="subscribe" data-id="${esc(o.id)}">Жазылу</button>
+    </div>`).join('') : '<p style="color:var(--muted);">Әзірге онлайн-жаттығулар жоқ</p>';
+
+      const bookItems = Object.entries(bookings || {}).map(([cid, b]) => {
+        const c = classes[cid] || { title: cid, datetime: b.bookedAt };
+        return `
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;">
+          <h3>${esc(c.title)}</h3>
+          <span class="badge badge-success">${esc(b.status)}</span>
+        </div>
+        <p style="color:var(--muted);font-size:.85rem;margin-top:.5rem;">
+          Жазылды: ${fmtDate(b.bookedAt, { day: '2-digit', month: '2-digit', year: 'numeric' })}
+        </p>
+        <button class="btn btn-ghost" style="margin-top:1rem;"
+          data-action="cancel" data-id="${esc(cid)}">Болдырмау</button>
+      </div>`;
+      }).join('') || '<p style="color:var(--muted);">Әзірге жазылымдар жоқ</p>';
+
+      return layoutApp(`
+    <h1 class="page-title">Менің жаттығуларым</h1>
+    <h2 style="font-size:1.1rem;margin-bottom:1rem;">🎥 Онлайн-жаттығулар</h2>
+    <div class="grid grid-2" style="margin-bottom:2.5rem;">${onlineHtml}</div>
+    <h2 style="font-size:1.1rem;margin-bottom:1rem;">📌 Менің жазылымдарым</h2>
+    <div class="grid grid-2">${bookItems}</div>
+  `, 'trainings');
+    }
+
+    async function renderClientProgress() {
+      const p = await API.getProgress(state.user.uid);
+      const achMap = {
+        first_workout: '🥇 Бірінші жаттығу',
+        '10_sessions': '🔥 10 сабақ',
+        month_streak: '📅 Бір ай қатарынан'
+      };
+      const weight = p.weight || [];
+      const measurements = p.measurements || [];
+      const achievements = p.achievements || [];
+      const plan = p.trainingPlan;
+
+      return layoutApp(`
+    <h1 class="page-title">Прогресс</h1>
+
+    <div class="grid grid-2" style="margin-bottom:1.5rem;">
+      <div class="card">
+        <h3>Салмақ</h3>
+        <div style="margin-top:1rem;">
+          ${weight.length ? weight.map(w => `
+            <div style="display:flex;align-items:center;gap:1rem;margin-bottom:.6rem;">
+              <span style="width:90px;color:var(--muted);font-size:.85rem;">${esc(w.date)}</span>
+              <div class="progress" style="flex:1;"><span style="width:${Math.min(w.value, 100)}%"></span></div>
+              <span style="font-weight:700;">${w.value} кг</span>
+            </div>`).join('') : '<p style="color:var(--muted);">Деректер жоқ</p>'}
+        </div>
+      </div>
+      <div class="card">
+        <h3>Өлшемдер</h3>
+        <div style="margin-top:1rem;">
+          ${measurements.length ? measurements.map(m => `
+            <div style="border-bottom:1px solid var(--border);padding:.75rem 0;">
+              <div style="color:var(--muted);font-size:.85rem;">${esc(m.date)}</div>
+              <div>Кеуде: <b>${m.chest}</b> · Бел: <b>${m.waist}</b> · Жамбас: <b>${m.hips}</b></div>
+            </div>`).join('') : '<p style="color:var(--muted);">Деректер жоқ</p>'}
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-bottom:1.5rem;">
+      <h3 style="margin-bottom:1rem;">Салмақ қосу</h3>
+      <form id="weight-form" style="display:flex;gap:1rem;flex-wrap:wrap;">
+        <input class="input" type="number" step="0.1" id="weight-value" placeholder="кг" required style="flex:1;min-width:150px;" />
+        <button class="btn btn-primary" type="submit">Қосу</button>
+      </form>
+    </div>
+
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>Жаттығу жоспары</h3>
+        <p style="color:var(--muted);margin-top:.5rem;">${esc(plan?.name || '—')}</p>
+      </div>
+      <div class="card">
+        <h3>Жетістіктер</h3>
+        <div style="display:flex;flex-wrap:wrap;gap:.5rem;margin-top:1rem;">
+          ${achievements.length
+          ? achievements.map(a => `<span class="badge badge-warn">${esc(achMap[a] || a)}</span>`).join('')
+          : '<p style="color:var(--muted);">Жетістіктер жоқ</p>'}
+        </div>
+      </div>
+    </div>
+  `, 'progress');
+    }
+
+    /* =========================================================
+       11. ADMIN / TRAINER PAGES
+       ========================================================= */
+    async function renderAdminDashboard() {
+      const a = (await API.getAnalytics()) || {};
+      const t = a.totals || { activeClients: 0, activeTrainers: 0, classesThisWeek: 0, onlineTrainingsThisWeek: 0 };
+      const hallLoad = a.hallLoad || {};
+      const retention = (a.retention?.monthly) || [];
+      const popular = a.popularClasses || [];
+
+      return layoutApp(`
+    <h1 class="page-title">Басқару панелі</h1>
+    <div class="grid grid-4" style="margin-bottom:2rem;">
+      ${[['Белсенді клиенттер', t.activeClients], ['Жаттықтырушылар', t.activeTrainers],
+        ['Аптадағы сабақтар', t.classesThisWeek], ['Аптадағы онлайн', t.onlineTrainingsThisWeek]]
+          .map(([l, v]) => `<div class="card"><div class="stat-label">${l}</div><div class="stat-value">${v}</div></div>`).join('')}
+    </div>
+
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>Залдардың жүктелуі</h3>
+        <div style="margin-top:1rem;">
+          ${Object.keys(hallLoad).length ? Object.entries(hallLoad).map(([id, v]) => `
+            <div style="margin-bottom:1rem;">
+              <div style="display:flex;justify-content:space-between;margin-bottom:.35rem;">
+                <span>${esc(id)}</span><b>${v.avgLoadPercent}%</b>
+              </div>
+              <div class="progress"><span style="width:${v.avgLoadPercent}%"></span></div>
+              <div style="color:var(--muted);font-size:.8rem;margin-top:.25rem;">Шыңы: ${v.peakHour}:00</div>
+            </div>`).join('') : '<p style="color:var(--muted);">Деректер жоқ</p>'}
+        </div>
+      </div>
+      <div class="card">
+        <h3>Retention</h3>
+        <div style="margin-top:1rem;">
+          ${retention.length ? retention.map(m => `
+            <div style="margin-bottom:1rem;">
+              <div style="display:flex;justify-content:space-between;margin-bottom:.35rem;">
+                <span>${esc(m.month)}</span><b>${(m.rate * 100).toFixed(0)}%</b>
+              </div>
+              <div class="progress"><span style="width:${m.rate * 100}%"></span></div>
+            </div>`).join('') : '<p style="color:var(--muted);">Деректер жоқ</p>'}
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:1.5rem;">
+      <h3>Танымал сабақтар</h3>
+      <div style="margin-top:1rem;">
+        ${popular.length ? popular.map((c, i) => `
+          <div style="display:flex;justify-content:space-between;padding:.75rem 0;
+                      border-bottom:1px solid var(--border);">
+            <span><b>#${i + 1}</b> ${esc(c.title)}</span>
+            <span style="color:var(--accent);font-weight:700;">${c.totalBookings} жазылым</span>
+          </div>`).join('') : '<p style="color:var(--muted);">Деректер жоқ</p>'}
+      </div>
+    </div>
+  `, 'dashboard');
+    }
+
+    async function renderAdminSchedule() {
+      const [classes, trainers, halls] = await Promise.all([
+        API.getClasses(), API.getTrainers(), API.getHalls()
+      ]);
+      const classList = Object.values(classes || {}).sort(
+        (a, b) => new Date(a.datetime) - new Date(b.datetime)
+      );
+
+      return layoutApp(`
+    <h1 class="page-title">Кестені басқару</h1>
+
+    <div class="card" style="margin-bottom:1.5rem;">
+      <h3 style="margin-bottom:1rem;">Сабақ қосу</h3>
+      <form id="class-form">
+        <div class="grid grid-3">
+          <div class="field"><label>Атауы</label><input class="input" id="c-title" required /></div>
+          <div class="field"><label>Жаттықтырушы</label>
+            <select id="c-trainer">
+              ${Object.values(trainers).map(t => `<option value="${t.id}">${esc(t.name)}</option>`).join('')}
+            </select>
+          </div>
+          <div class="field"><label>Зал</label>
+            <select id="c-hall">
+              ${Object.values(halls).map(h => `<option value="${h.id}">${esc(h.name)}</option>`).join('')}
+            </select>
+          </div>
+          <div class="field"><label>Күні мен уақыты</label>
+            <input class="input" type="datetime-local" id="c-datetime" required />
+          </div>
+          <div class="field"><label>Ұзақтығы, мин</label>
+            <input class="input" type="number" id="c-duration" value="60" min="10" />
+          </div>
+          <div class="field"><label>Сыйымдылығы</label>
+            <input class="input" type="number" id="c-capacity" value="20" min="1" />
+          </div>
+          <div class="field"><label>Бағасы, ₸</label>
+            <input class="input" type="number" id="c-price" value="800" min="0" />
+          </div>
+          <div class="field"><label>Деңгейі</label>
+            <select id="c-level">
+              <option value="beginner">Бастауыш</option>
+              <option value="intermediate">Орта</option>
+              <option value="advanced">Жоғары</option>
+            </select>
+          </div>
+          <div class="field"><label>Онлайн</label>
+            <select id="c-online"><option value="false">Жоқ</option><option value="true">Иә</option></select>
+          </div>
+        </div>
+        <button class="btn btn-primary" type="submit">Сабақ жасау</button>
+      </form>
+    </div>
+
+    <div class="card">
+      <h3>Барлық сабақтар (${classList.length})</h3>
+      <div style="margin-top:1rem;">
+        ${classList.length ? classList.map(c => `
+          <div style="display:flex;justify-content:space-between;padding:1rem 0;
+                      border-bottom:1px solid var(--border);flex-wrap:wrap;gap:.5rem;">
+            <div>
+              <b>${esc(c.title)}</b>
+              <div style="color:var(--muted);font-size:.85rem;">
+                ${fmtDate(c.datetime)} · ${esc(trainers[c.trainerId]?.name || '—')} · ${esc(halls[c.hallId]?.name || '—')}
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:1rem;">
+              <span>${c.booked}/${c.capacity}</span>
+              <button class="btn btn-danger btn-sm" data-action="delete-class" data-id="${esc(c.id)}">Жою</button>
+            </div>
+          </div>`).join('') : '<p style="color:var(--muted);">Әзірге сабақтар жоқ</p>'}
+      </div>
+    </div>
+  `, 'schedule');
+    }
+
+    async function renderAdminClients() {
+      const clients = await API.getAllClients();
+      return layoutApp(`
+    <h1 class="page-title">Клиенттер (${clients.length})</h1>
+    <input class="input" id="clients-search" placeholder="🔍 Аты немесе email бойынша іздеу"
+           style="max-width:400px;margin-bottom:1.5rem;" />
+    <div id="clients-list" class="grid grid-2">
+      ${clients.length ? clients.map(c => `
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;">
+            <h3>${esc(c.firstName)} ${esc(c.lastName)}</h3>
+            <span class="badge badge-success">${esc(c.membership?.status || '—')}</span>
+          </div>
+          <p style="color:var(--muted);margin:.5rem 0;">${esc(c.email || '')}</p>
+          <p>Тариф: <b>${esc(c.membership?.type || '—')}</b></p>
+        </div>`).join('') : '<p style="color:var(--muted);">Клиенттер жоқ</p>'}
+    </div>
+  `, 'clients');
+    }
+
+    async function renderAdminAccess() {
+      const [turnstiles, logs] = await Promise.all([API.getTurnstiles(), API.getAccessLogs()]);
+      const logList = Object.entries(logs || {})
+        .map(([id, l]) => ({ id, ...l }))
+        .sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp));
+
+      return layoutApp(`
+    <h1 class="page-title">Кіруді бақылау</h1>
+
+    <div class="card" style="margin-bottom:1.5rem;">
+      <h3>Турникеттер</h3>
+      <div style="margin-top:1rem;">
+        ${Object.values(turnstiles).length ? Object.values(turnstiles).map(t => `
+          <div style="display:flex;justify-content:space-between;padding:.75rem 0;
+                      border-bottom:1px solid var(--border);">
+            <div>
+              <b>${esc(t.location)}</b>
+              <div style="color:var(--muted);font-size:.8rem;">
+                Соңғы пинг: ${t.lastPingAt ? new Date(t.lastPingAt).toLocaleTimeString('kk-KZ') : '—'}
+              </div>
+            </div>
+            <span class="badge ${t.status === 'online' ? 'badge-success' : 'badge-danger'}">${esc(t.status)}</span>
+          </div>`).join('') : '<p style="color:var(--muted);">Деректер жоқ</p>'}
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Кіру журналы (${logList.length})</h3>
+      <div style="margin-top:1rem;overflow-x:auto;">
+        <table>
+          <thead><tr>
+            <th>Уақыты</th><th>Пайдаланушы</th><th>Турникет</th><th>Әдісі</th><th>Нәтижесі</th>
+          </tr></thead>
+          <tbody>
+            ${logList.length ? logList.map(l => `
+              <tr>
+                <td>${new Date(l.timestamp).toLocaleString('kk-KZ')}</td>
+                <td>${esc(l.userId)}</td>
+                <td>${esc(l.turnstileId)}</td>
+                <td>${esc(l.method)}</td>
+                <td>
+                  <span class="badge ${l.result === 'granted' ? 'badge-success' : 'badge-danger'}">
+                    ${esc(l.result)}${l.reason ? ' · ' + esc(l.reason) : ''}
+                  </span>
+                </td>
+              </tr>`).join('') : '<tr><td colspan="5" style="color:var(--muted);">Жазбалар жоқ</td></tr>'}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  `, 'access');
+    }
+
+    async function renderAdminAnalytics() {
+      const a = await API.getAnalytics();
+      window._analytics = a;
+      const hallLoad = a.hallLoad || {};
+      const retention = (a.retention?.monthly) || [];
+      const top = a.topClass;
+
+      return layoutApp(`
+    <h1 class="page-title">Аналитика</h1>
+    <button class="btn btn-ghost" data-action="export" style="margin-bottom:1.5rem;">⬇ JSON экспорты</button>
+
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>Залдардың жүктелуі</h3>
+        <div style="margin-top:1rem;">
+          ${Object.entries(hallLoad).map(([id, v]) => `
+            <div style="margin-bottom:1rem;">
+              <div style="display:flex;justify-content:space-between;margin-bottom:.35rem;">
+                <span>${esc(id)}</span><b>${v.avgLoadPercent}%</b>
+              </div>
+              <div class="progress"><span style="width:${v.avgLoadPercent}%"></span></div>
+            </div>`).join('') || '<p style="color:var(--muted);">Деректер жоқ</p>'}
+        </div>
+      </div>
+      <div class="card">
+        <h3>Айлар бойынша Retention</h3>
+        <div style="margin-top:1rem;">
+          ${retention.map(m => `
+            <div style="margin-bottom:1rem;">
+              <div style="display:flex;justify-content:space-between;margin-bottom:.35rem;">
+                <span>${esc(m.month)}</span><b>${(m.rate * 100).toFixed(0)}%</b>
+              </div>
+              <div class="progress"><span style="width:${m.rate * 100}%"></span></div>
+            </div>`).join('') || '<p style="color:var(--muted);">Деректер жоқ</p>'}
+        </div>
+      </div>
+    </div>
+
+    ${top ? `
+      <div class="card" style="margin-top:1.5rem;">
+        <h3>Үздік сабақ</h3>
+        <div style="margin-top:1rem;">
+          <p style="font-size:1.3rem;font-weight:700;">${esc(top.title)}</p>
+          <p style="color:var(--muted);margin-top:.5rem;">
+            Жаттықтырушы: ${esc(top.trainerId)} · ${top.totalBookings} жазылым · ★ ${top.avgRating}
+          </p>
+        </div>
+      </div>` : ''}
+  `, 'analytics');
+    }
+
+    /* =========================================================
+       12. EVENT BINDING
+       ========================================================= */
+    function bindRouteEvents(hash) {
+
+      const loginForm = document.getElementById('login-form');
+      if (loginForm) {
+        loginForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const btn = loginForm.querySelector('button[type=submit]');
+          btn.disabled = true; btn.textContent = 'Кіру…';
+          try {
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const user = await API.login(email, password);
+            state.user = user;
+            localStorage.setItem('fitcore_user', JSON.stringify(user));
+            toast('Қош келдіңіз, ' + (user.firstName || '') + '!', 'success');
+            navigate(homeFor(user.role));
+          } catch (err) {
+            toast(err.message || 'Кіру қатесі', 'error');
+          } finally {
+            btn.disabled = false; btn.textContent = 'Кіру';
+          }
+        });
+      }
+
+      const registerForm = document.getElementById('register-form');
+      if (registerForm) {
+        registerForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const btn = registerForm.querySelector('button[type=submit]');
+          btn.disabled = true; btn.textContent = 'Жасалуда…';
+          try {
+            await API.register({
+              firstName: document.getElementById('firstName').value.trim(),
+              lastName: document.getElementById('lastName').value.trim(),
+              email: document.getElementById('email').value.trim(),
+              phone: document.getElementById('phone').value.trim(),
+              password: document.getElementById('password').value
+            });
+            toast('Тіркелу сәтті! Кіріңіз.', 'success');
+            navigate('login');
+          } catch (err) {
+            console.error(err);
+            const map = {
+              'auth/email-already-in-use': 'Email бос емес',
+              'auth/weak-password': 'Құпиясөз тым қарапайым',
+              'auth/invalid-email': 'Қате email'
+            };
+            toast(map[err.code] || err.message || 'Тіркелу қатесі', 'error');
+          } finally {
+            btn.disabled = false; btn.textContent = 'Тіркелу';
+          }
+        });
+      }
+
+      const resetForm = document.getElementById('reset-form');
+      if (resetForm) {
+        resetForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          try {
+            await API.resetPassword(
+              document.getElementById('email').value.trim(),
+              document.getElementById('newPassword').value
+            );
+            toast('Құпиясөз өзгертілді!', 'success');
+            navigate('login');
+          } catch (err) {
+            toast(err.message || 'Қате', 'error');
+          }
+        });
+      }
+
+      if (hash === 'client/schedule') {
+        loadClientClasses();
+        ['f-hall', 'f-trainer', 'f-type'].forEach(id => {
+          const el = document.getElementById(id);
+          if (el) el.addEventListener('change', loadClientClasses);
+        });
+        if (FIREBASE_READY && db) {
+          const unsub = onValue(ref(db, 'classes'), () => loadClientClasses());
+          window._rt_unsub = unsub;
+        }
+      } else if (window._rt_unsub) {
+        window._rt_unsub();
+        window._rt_unsub = null;
+      }
+
+      const weightForm = document.getElementById('weight-form');
+      if (weightForm) {
+        weightForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const v = parseFloat(document.getElementById('weight-value').value);
+          if (isNaN(v)) return;
+          try {
+            await API.addWeightEntry(state.user.uid, {
+              date: new Date().toISOString().slice(0, 10), value: v
+            });
+            toast('Салмақ қосылды', 'success');
+            await router();
+          } catch (err) { toast(err.message, 'error'); }
+        });
+      }
+
+      const classForm = document.getElementById('class-form');
+      if (classForm) {
+        classForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          const btn = classForm.querySelector('button[type=submit]');
+          btn.disabled = true; btn.textContent = 'Жасалуда…';
+          try {
+            const dt = document.getElementById('c-datetime').value;
+            const payload = {
+              title: document.getElementById('c-title').value.trim(),
+              type: 'group',
+              trainerId: document.getElementById('c-trainer').value,
+              hallId: document.getElementById('c-hall').value,
+              datetime: dt ? new Date(dt).toISOString() : new Date().toISOString(),
+              durationMin: parseInt(document.getElementById('c-duration').value, 10) || 60,
+              capacity: parseInt(document.getElementById('c-capacity').value, 10) || 20,
+              booked: 0,
+              totalBookings: 0,
+              price: parseInt(document.getElementById('c-price').value, 10) || 0,
+              level: document.getElementById('c-level').value,
+              online: document.getElementById('c-online').value === 'true',
+              streamUrl: null,
+              rating: { sum: 0, count: 0, avg: 0 }
+            };
+            await API.createClass(payload);
+            toast('✅ Сабақ жасалды', 'success');
+            await router();
+          } catch (err) {
+            console.error(err);
+            toast(err.message, 'error');
+          } finally {
+            btn.disabled = false; btn.textContent = 'Сабақ жасау';
+          }
+        });
+      }
+
+      const search = document.getElementById('clients-search');
+      if (search) {
+        search.addEventListener('input', (e) => {
+          const q = e.target.value.toLowerCase();
+          document.querySelectorAll('#clients-list .card').forEach(card => {
+            card.style.display = card.textContent.toLowerCase().includes(q) ? '' : 'none';
+          });
+        });
+      }
+    }
+
+    /* ---------- CLIENT SCHEDULE HELPER ---------- */
+    async function loadClientClasses() {
+      try {
+        const [classes, trainers, halls] = await Promise.all([
+          API.getClasses(), API.getTrainers(), API.getHalls()
+        ]);
+        const hallF = document.getElementById('f-hall')?.value || '';
+        const trainerF = document.getElementById('f-trainer')?.value || '';
+        const typeF = document.getElementById('f-type')?.value || '';
+
+        const list = Object.values(classes || {}).filter(c => {
+          if (hallF && c.hallId !== hallF) return false;
+          if (trainerF && c.trainerId !== trainerF) return false;
+          if (typeF === 'online' && !c.online) return false;
+          if (typeF === 'group' && c.type !== 'group') return false;
+          return true;
+        }).sort((a, b) => new Date(a.datetime) - new Date(b.datetime));
+
+        const el = document.getElementById('classes-list');
+        if (!el) return;
+
+        el.innerHTML = list.length ? list.map(c => {
+          const free = c.capacity - c.booked;
+          return `
+        <div class="card">
+          <div style="display:flex;justify-content:space-between;align-items:flex-start;">
+            <div>
+              <h3>${esc(c.title)}</h3>
+              <p style="color:var(--muted);font-size:.85rem;margin-top:.35rem;">
+                ${fmtDate(c.datetime)} · ${c.durationMin} мин
+              </p>
+              <p style="color:var(--muted);font-size:.85rem;">
+                👤 ${esc(trainers[c.trainerId]?.name || '—')} · 🏠 ${esc(halls[c.hallId]?.name || '—')}
+              </p>
+            </div>
+            <span class="badge ${free > 0 ? 'badge-success' : 'badge-danger'}">
+              ${free > 0 ? free + ' орын' : 'орын жоқ'}
+            </span>
+          </div>
+          <div style="display:flex;justify-content:space-between;align-items:center;margin-top:1rem;flex-wrap:wrap;gap:.5rem;">
+            <span style="font-weight:700;color:var(--accent);">${c.price} ₸</span>
+            <div style="display:flex;gap:.5rem;align-items:center;">
+              ${c.online ? '<span class="badge badge-info">🎥 онлайн</span>' : ''}
+              <button class="btn btn-primary btn-sm" data-action="book" data-id="${esc(c.id)}" ${free <= 0 ? 'disabled' : ''}>
+                Жазылу
+              </button>
+            </div>
+          </div>
+        </div>`;
+        }).join('') : '<p style="color:var(--muted);">Ештеңе табылмады</p>';
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    /* =========================================================
+       13. ACTIONS
+       ========================================================= */
+    async function logout() {
+      await API.logout();
+      state.user = null;
+      localStorage.removeItem('fitcore_user');
+      toast('Шықтыңыз', 'success');
+      navigate('home');
+      await router();
+    }
+
+    async function handleBook(classId) {
+      try {
+        await API.bookClass(state.user.uid, classId);
+        toast('✅ Сіз жазылдыңыз!', 'success');
+        await loadClientClasses();
+      } catch (e) {
+        toast('Қате: ' + e.message, 'error');
+      }
+    }
+
+    async function handleCancel(classId) {
+      if (!confirm('Жазылымды болдырмау?')) return;
+      try {
+        await API.cancelBooking(state.user.uid, classId);
+        toast('Жазылым болдырылмады', 'success');
+        await router();
+      } catch (e) { toast(e.message, 'error'); }
+    }
+
+    async function handleSubscribe(onlineId) {
+      try {
+        await API.subscribeOnline(state.user.uid, onlineId);
+        toast('✅ Жазылым рәсімделді', 'success');
+        await router();
+      } catch (e) { toast(e.message, 'error'); }
+    }
+
+    async function deleteClass(id) {
+      if (!confirm('Сабақты жою?')) return;
+      try {
+        await API.deleteClass(id);
+        toast('Жойылды', 'success');
+        await router();
+      } catch (e) { toast(e.message, 'error'); }
+    }
+
+    function exportAnalytics() {
+      const data = window._analytics || {};
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `fitcore-analytics-${Date.now()}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      toast('Файл жүктелді', 'success');
+    }
+
+    /* =========================================================
+       14. GLOBAL DELEGATION
+       ========================================================= */
+    document.addEventListener('click', (e) => {
+      const nav = e.target.closest('[data-nav]');
+      if (nav) { e.preventDefault(); return navigate(nav.getAttribute('data-nav')); }
+
+      const act = e.target.closest('[data-action]');
+      if (act) {
+        e.preventDefault();
+        const action = act.getAttribute('data-action');
+        const id = act.getAttribute('data-id');
+        switch (action) {
+          case 'logout': return logout();
+          case 'book': return handleBook(id);
+          case 'cancel': return handleCancel(id);
+          case 'subscribe': return handleSubscribe(id);
+          case 'delete-class': return deleteClass(id);
+          case 'export': return exportAnalytics();
+        }
+      }
+    });
+
+    window.navigate = navigate;
+
+    /* =========================================================
+       15. AUTH STATE — точка входа
+       ========================================================= */
+    function loadSession() {
+      try {
+        const raw = localStorage.getItem('fitcore_user');
+        if (raw) state.user = JSON.parse(raw);
+      } catch (_) { state.user = null; }
+    }
+
+    loadSession();
+    router();
+
+  </script>
+</body>
+
+</html>
